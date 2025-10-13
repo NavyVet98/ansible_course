@@ -3,17 +3,43 @@
   become: true
   tasks:
 
-  - name: update repository cache
+  - name: Display OS information
+    ansible.builtin.debug:
+      msg: "Distribution: {{ ansible_distribution }}"
+
+  - name: Install python3-libdnf5 on Fedora
+    ansible.builtin.raw: dnf install -y python3-libdnf5
+    when: ansible_distribution == "Fedora"
+    ignore_errors: yes
+
+  - name: Install python3-dnf on Fedora
+    ansible.builtin.raw: dnf install -y python3-dnf
+    when: ansible_distribution == "Fedora"
+    ignore_errors: yes
+
+  - name: update repository cache for Debian based systems
     ansible.builtin.apt:
       update_cache: yes
-#      cache_valid_time: 3600
+    when: ansible_distribution == "Debian"
 
-  - name: Upgrade all packages to the latest version
+  - name: Upgrade all packages to the latest version for Debian based systems
     ansible.builtin.apt:
       upgrade: dist
       autoremove: yes
       autoclean: yes
       dpkg_options: 'force-confold,force-confdef'
+    when: ansible_distribution == "Debian"
+
+  - name: update repository cache for Fedora based systems
+    ansible.builtin.package:
+      update_cache: yes
+    when: ansible_distribution == "Fedora"
+
+  - name: Upgrade all packages to the latest version for Fedora based systems
+    ansible.builtin.package:
+      name: "*"
+      state: latest
+    when: ansible_distribution == "Fedora"
 
   - name: Reboot if required
     ansible.builtin.reboot:
@@ -28,3 +54,4 @@
     ansible.builtin.apt:
       name: unattended-upgrades
       state: present
+    when: ansible_distribution == "Debian"
