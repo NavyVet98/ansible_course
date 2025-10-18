@@ -7,15 +7,15 @@
     ansible.builtin.debug:
       msg: "Distribution: {{ ansible_distribution }}"
 
-  # - name: Install python3-libdnf5 on Fedora
-  #   ansible.builtin.raw: dnf install -y python3-libdnf5
-  #   when: ansible_distribution == "Fedora"
-  #   ignore_errors: yes
+  - name: Install python3-libdnf5 on Fedora
+    ansible.builtin.raw: dnf install -y python3-libdnf5
+    when: ansible_distribution == "Fedora"
+    ignore_errors: yes
 
-  # - name: Install python3-dnf on Fedora
-  #   ansible.builtin.raw: dnf install -y python3-dnf
-  #   when: ansible_distribution == "Fedora"
-  #   ignore_errors: yes
+  - name: Install python3-dnf on Fedora
+    ansible.builtin.raw: dnf install -y python3-dnf
+    when: ansible_distribution == "Fedora"
+    ignore_errors: yes
 
   - name: update repository cache for Debian based systems
     ansible.builtin.apt:
@@ -30,25 +30,25 @@
       dpkg_options: 'force-confold,force-confdef'
     when: ansible_distribution == "Linux Mint" or ansible_distribution == "Ubuntu"
 
-  # - name: update repository cache for Fedora based systems
-  #   ansible.builtin.package:
-  #     update_cache: yes
-  #   when: ansible_distribution == "Fedora"
+  - name: update repository cache for Fedora based systems
+    ansible.builtin.package:
+      update_cache: yes
+    when: ansible_distribution == "Fedora"
 
-  # - name: Upgrade all packages to the latest version for Fedora based systems
-  #   ansible.builtin.package:
-  #     name: "*"
-  #     state: latest
-  #   when: ansible_distribution == "Fedora"
+  - name: Upgrade all packages to the latest version for Fedora based systems
+    ansible.builtin.package:
+      name: "*"
+      state: latest
+    when: ansible_distribution == "Fedora"
 
-  # - name: Reboot if required
-  #   ansible.builtin.reboot:
-  #     msg: "Reboot initiated by Ansible for kernel upgrade"
-  #     connect_timeout: 5
-  #     reboot_timeout: 600
-  #     pre_reboot_delay: 0
-  #     post_reboot_delay: 30
-  #     test_command: whoami
+  - name: Reboot if required
+    ansible.builtin.reboot:
+      msg: "Reboot initiated by Ansible for kernel upgrade"
+      connect_timeout: 5
+      reboot_timeout: 600
+      pre_reboot_delay: 0
+      post_reboot_delay: 30
+      test_command: whoami
 
   - name: Ensure unattended-upgrades is installed
     ansible.builtin.apt:
