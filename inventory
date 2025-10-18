@@ -1,5 +1,5 @@
 192.168.69.23 # frodo
 192.168.69.24 # samwise
-192.168.69.25 # ubuntu-server
-192.168.69.26 # fedora-server
+# 192.168.69.25 # ubuntu-server
+# 192.168.69.26 # fedora-server
 # 192.168.69.27 # fedora-ws
